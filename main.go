@@ -20,6 +20,7 @@ func main() {
 
 	for !window.ShouldClose() {
 		// Here comes the opengl stuff
+		processInput(window)
 		window.SwapBuffers()
 		glfw.PollEvents()
 	}
@@ -32,11 +33,24 @@ func initGl() {
 	}
 }
 
+func processInput(w *glfw.Window) {
+	key := w.GetKey(glfw.KeyEscape)
+
+	switch key {
+	case glfw.Press:
+		w.SetShouldClose(true)
+		break
+	}
+}
 func initGlfw() *glfw.Window {
 
 	if err := glfw.Init(); err != nil {
 		panic(err)
 	}
+
+	glfw.WindowHint(glfw.ContextVersionMajor, 3)
+	glfw.WindowHint(glfw.ContextVersionMinor, 3)
+	glfw.WindowHint(glfw.OpenGLProfile, glfw.OpenGLCoreProfile)
 
 	window, err := glfw.CreateWindow(640, 480, "Mithra Engine", nil, nil)
 	if err != nil {
